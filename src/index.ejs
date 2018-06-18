@@ -1,0 +1,14 @@
+<html>
+	<head>
+		<title><%= htmlWebpackPlugin.options.title %></title>
+	</head>
+	<body>
+		<div class="profile">
+			<h1>Hello .ejs Page</h1>
+			<img src="<%= require('../images/400.jpg') %>" />
+			<div id="react-root"></div>
+		</div>
+		<!-- <script src="main.bundle.js"></script> -->
+		<!-- scripts are now injected by HtmlWebpackPlugin not by hand like above -->
+	</body>
+</html>

@@ -1,0 +1,19 @@
+{
+	"plugins": [
+		"transform-runtime",
+		"react-hot-loader/babel",
+		"transform-es2015-arrow-functions",
+		"async-to-promises"
+	],
+	"presets": [
+		[
+			"env", {
+				"debug": true,
+				"targets": {
+					"browsers": ["last 2 versions"]
+				}
+			}
+		],
+		"babel-preset-react"
+	]
+}
