@@ -6,9 +6,15 @@ const isProd = process.env.NODE_ENV === 'production';
 
 module.exports = {
 	entry: {
-		main: ['babel-polyfill', './src/main'],
-		// main: ['core-js/fn/promise', './src/main']				// babel-polyfill adds too much kB to output main.bundle.js
-		ts: './src/main'
+		main: [
+			'babel-polyfill',
+			'babel-runtime/regenerator',
+			'webpack-hot-middleware/client?reload=true',
+			'./src/main'
+		],
+		// babel-polyfill adds too much kB to outputted main.bundle.js
+		// main: ['core-js/fn/promise', './src/main']
+		// ts: './src/main'
 	},
 	resolve: {
 		extensions: [".js", ".ts"]													// add extensions to entry files above
@@ -98,7 +104,7 @@ module.exports = {
 						// extract loader parses the javascript back to an html file
 						loader: 'extract-loader'
 					}, */
-					// html-loader was left cause it exports tested html file as string to src/main.js
+					// html-loader was left cause it exports tested html file as JS code to src/main.js
 					{
 						loader: 'html-loader',		// exports tested html file to main.bundle.js as string and lints it
 						options: {

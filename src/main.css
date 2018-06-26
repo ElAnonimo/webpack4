@@ -21,3 +21,9 @@ img {
 	width: 300px;
 	box-shadow: 15px 15px 20px grey;
 }
+
+a {
+	color: #fff;
+	padding: 10px 20px;
+	cursor: pointer;
+}
