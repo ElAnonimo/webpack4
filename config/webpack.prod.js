@@ -5,6 +5,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 // const MinifyPlugin = require('babel-minify-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
+const BrotliPlugin = require('brotli-webpack-plugin');
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -159,7 +161,11 @@ module.exports = env => {
 				}
 			}),
 			// new MinifyPlugin()
-			new UglifyJsPlugin()
+			new UglifyJsPlugin(),
+			new CompressionPlugin({
+				algorithm: 'gzip'
+			}),
+			new BrotliPlugin()
 		]
 	}
 };

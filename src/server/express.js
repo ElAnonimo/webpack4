@@ -13,8 +13,11 @@ const webpackHotMiddleware = require('webpack-hot-middleware')(compiler, config.
 server.use(webpackDevMiddleware)
 server.use(webpackHotMiddleware)
 
-const staticMiddleware = express.static('dist')
-server.use(staticMiddleware)
+// const staticMiddleware = express.static('dist')
+// server.use(staticMiddleware)
+// Heroku doesn't support gzip on Heroku server level so we send gzip from express
+const expressStaticGzip = require('express-static-gzip')
+server.use(expressStaticGzip('dist', { enableBrotli: true }))
 
 const port = process.env.PORT || 8080
 
