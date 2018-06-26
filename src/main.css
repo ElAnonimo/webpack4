@@ -9,14 +9,14 @@ body {
 	flex-direction: column;
 }
 
-h1 {
+.profile > h1 {
 	color: blue;
 	/* height: 100vh; */
 	font-family: sans-serif;
 	text-shadow: 0 0 20px black;
 }
 
-img {
+.profile > img {
 	border-radius: 100%;
 	width: 300px;
 	box-shadow: 15px 15px 20px grey;

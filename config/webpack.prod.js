@@ -30,6 +30,18 @@ module.exports = env => {
 			path: path.resolve(__dirname, '../dist'),
 			publicPath: '/'
 		},
+		optimization: {
+			splitChunks: {
+				chunks: 'all',
+				cacheGroups: {
+					vendor: {
+						name: 'vendor',
+						chunks: 'initial',
+						minChunks: 2
+					}
+				}
+			}
+		},
 		devtool: 'source-map',
 		module: {
 			rules: [
@@ -138,6 +150,13 @@ module.exports = env => {
 								name: 'images/[name].[hash:8].[ext]'
 							}
 						}
+					]
+				},
+				{
+					test: /\.md$/,
+					use: [
+						// { loader: 'html-loader' },
+						{ loader: 'markdown-with-front-matter-loader' }
 					]
 				}
 			]

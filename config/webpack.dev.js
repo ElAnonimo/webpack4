@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -32,6 +33,18 @@ module.exports = {
 		hot: true,
 		stats: {
 			colors: true
+		}
+	},
+	optimization: {
+		splitChunks: {
+			chunks: 'all',
+			cacheGroups: {
+				vendor: {
+					name: 'vendor',
+					chunks: 'initial',
+					minChunks: 2
+				}
+			}
 		}
 	},
 	devtool: 'source-map',
@@ -142,6 +155,13 @@ module.exports = {
 						}
 					}
 				]
+			},
+			{
+				test: /\.md$/,
+				use: [
+					// { loader: 'html-loader' },
+					{ loader: 'markdown-with-front-matter-loader' }
+				]
 			}
 		]
 	},
@@ -155,6 +175,11 @@ module.exports = {
 			template: './src/index.hbs',
 			inject: true,			// injects <script> tags to outputted dist/index.html
 			title: 'Hello EJS'
+		}),
+		new BundleAnalyzerPlugin({
+			generateStatsFile: true,
+			analyzerMode: 'server',
+			openAnalyzer: false
 		})
 	]
 };
