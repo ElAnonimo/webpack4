@@ -163,8 +163,9 @@ module.exports = env => {
 		},
 		plugins: [
 			new OptimizeCssAssetsPlugin(),
-			new MiniCssExtractPlugin({ filename: '[name].[contenthash].css' }),
-			new HtmlWebpackPlugin({
+			// new MiniCssExtractPlugin({ filename: '[name].[contenthash].css' }),
+			new MiniCssExtractPlugin({ filename: '[name].css' }),
+			/* new HtmlWebpackPlugin({
 				// template: './src/index.html',
 				// ejs is default to HtmlWebpackPlugin, no ejs loader needed unlike with html-loader above
 				// template: './src/index.ejs',
@@ -172,7 +173,7 @@ module.exports = env => {
 				template: './src/index.hbs',
 				inject: true,			// injects <script> tags to outputted dist/index.html
 				title: 'Hello EJS'
-			}),
+			}), */
 			new webpack.DefinePlugin({
 				'process.env': {
 					// NODE_ENV: JSON.stringify('production')

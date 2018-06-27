@@ -167,7 +167,7 @@ module.exports = {
 	},
 	plugins: [
 		new webpack.HotModuleReplacementPlugin(),
-		new HtmlWebpackPlugin({
+		/* new HtmlWebpackPlugin({
 			// template: './src/index.html',
 			// ejs is default to HtmlWebpackPlugin, no ejs loader needed unlike with html-loader above
 			// template: './src/index.ejs',
@@ -175,7 +175,7 @@ module.exports = {
 			template: './src/index.hbs',
 			inject: true,			// injects <script> tags to outputted dist/index.html
 			title: 'Hello EJS'
-		}),
+		}), */
 		new BundleAnalyzerPlugin({
 			generateStatsFile: true,
 			analyzerMode: 'server',
