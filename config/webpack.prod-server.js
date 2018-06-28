@@ -7,6 +7,7 @@ const isProd = process.env.NODE_ENV === 'production';
 
 module.exports = env => {
 	return {
+		name: 'server',
 		entry: {
 			server: './src/server/main',
 			// babel-polyfill adds too much kB to outputted main.bundle.js

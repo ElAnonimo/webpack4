@@ -1,18 +1,14 @@
 const path = require('path');
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const nodeExternals = require('webpack-node-externals');
 
 const isProd = process.env.NODE_ENV === 'production';
 
 module.exports = {
+	name: 'server',
 	entry: {
-		main: [
-			'babel-polyfill',
-			'babel-runtime/regenerator',
-			'webpack-hot-middleware/client?reload=true',
-			'./src/main'
-		],
+		server: './src/server/render',
 		// babel-polyfill adds too much kB to outputted main.bundle.js
 		// main: ['core-js/fn/promise', './src/main']
 		// ts: './src/main'
@@ -20,34 +16,13 @@ module.exports = {
 	resolve: {
 		extensions: [".js", ".ts"]													// add extensions to entry files above
 	},
-	mode: 'development',
+	mode: 'none',
 	output: {
 		filename: '[name].bundle.js',
-		path: path.resolve(__dirname, '../dist'),
-		publicPath: '/'
+		path: path.resolve(__dirname, '../build')
 	},
-	devServer: {
-		contentBase: 'dist',
-		historyApiFallback: true,
-		overlay: true,					// to display errors in the browser window
-		hot: true,
-		stats: {
-			colors: true
-		}
-	},
-	optimization: {
-		splitChunks: {
-			chunks: 'all',
-			cacheGroups: {
-				vendor: {
-					name: 'vendor',
-					chunks: 'initial',
-					minChunks: 2
-				}
-			}
-		}
-	},
-	devtool: 'source-map',
+	target: 'node',																				// default is `target: 'web'`
+	externals: nodeExternals(),
 	module: {
 		rules: [
 			{
@@ -68,12 +43,13 @@ module.exports = {
 				test: /\.css$/,
 				use: [
 					{
-						loader: 'style-loader'
+						loader: MiniCssExtractPlugin.loader
 					},
 					{
 						loader: 'css-loader',
 						options: {
-							sourceMap: true				// won't work: no separate css file. Styles come from main.bundle.js
+							sourceMap: true,				// won't work: no separate css file. Styles come from main.bundle.js
+							minimize: true
 						}
 					}
 				]
@@ -151,7 +127,8 @@ module.exports = {
 					{
 						loader: 'file-loader',
 						options: {
-							name: 'images/[name].[hash:8].[ext]'
+							name: 'images/[name].[hash:8].[ext]',
+							emitFile: false
 						}
 					}
 				]
@@ -166,20 +143,12 @@ module.exports = {
 		]
 	},
 	plugins: [
-		new webpack.HotModuleReplacementPlugin(),
-		/* new HtmlWebpackPlugin({
-			// template: './src/index.html',
-			// ejs is default to HtmlWebpackPlugin, no ejs loader needed unlike with html-loader above
-			// template: './src/index.ejs',
-			// template: './src/index.pug',
-			template: './src/index.hbs',
-			inject: true,			// injects <script> tags to outputted dist/index.html
-			title: 'Hello EJS'
-		}), */
-		new BundleAnalyzerPlugin({
-			generateStatsFile: true,
-			analyzerMode: 'server',
-			openAnalyzer: false
+		new MiniCssExtractPlugin({ filename: '[name].css' }),
+		new webpack.DefinePlugin({
+			'process.env': {
+				NODE_ENV: JSON.stringify('development')
+				// NODE_ENV: JSON.stringify(env.NODE_ENV)
+			}
 		})
 	]
 };

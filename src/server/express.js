@@ -1,46 +1,40 @@
 import express from 'express';
-import React from 'react';
-import ReactDOMServer from 'react-dom/server';
-import AppRoot from '../components/AppRoot';
+import webpack from 'webpack'
+const expressStaticGzip = require('express-static-gzip')
 
 const server = express()
+
+import configDevClient from '../../config/webpack.dev-client'
+import configDevServer from '../../config/webpack.dev-server'
+import configProdClient from '../../config/webpack.prod-client'
+import configProdServer from '../../config/webpack.prod-server'
 
 const isProd = process.env.NODE_ENV === 'production';
 
 if (!isProd) {
-	const webpack = require('webpack')
-	const config = require('../../config/webpack.dev')
-	const compiler = webpack(config)
+	console.log('isDev');
+	const compiler = webpack([configDevClient, configDevServer])
 
-	const webpackDevMiddleware = require('webpack-dev-middleware')(compiler, config.devServer)
-	const webpackHotMiddleware = require('webpack-hot-middleware')(compiler, config.devServer)
+	const clientCompiler = compiler.compilers[0]
+	const serverCompiler = compiler.compilers[1]
+
+	const webpackDevMiddleware = require('webpack-dev-middleware')(compiler, configDevClient.devServer)
+	const webpackHotMiddleware = require('webpack-hot-middleware')(clientCompiler, configDevClient.devServer)
 
 	server.use(webpackDevMiddleware)
 	server.use(webpackHotMiddleware)
+} else {
+	console.log('isProd')
+	// const staticMiddleware = express.static('dist')
+	// server.use(staticMiddleware)
+	// Heroku doesn't support gzip on Heroku server level so we send gzip from express
+	// const expressStaticGzip = require('express-static-gzip')
+	const render = require('./render')
+
+	server.use(expressStaticGzip('dist', { enableBrotli: true }))
+
+	server.use(render());
 }
-
-// const staticMiddleware = express.static('dist')
-// server.use(staticMiddleware)
-// Heroku doesn't support gzip on Heroku server level so we send gzip from express
-const expressStaticGzip = require('express-static-gzip')
-server.use(expressStaticGzip('dist', { enableBrotli: true }))
-
-server.get('*', (req, res) => {
-	// const html = ReactDOMServer.renderToString(<div>Hello SSR</div>);
-	// res.send(html);
-	res.send(`
-		<html>
-			<head>
-				<link href="/main.css" rel="stylesheet" />
-			</head>
-			<body>
-				<div id="react-root"><p>${ReactDOMServer.renderToString(<AppRoot />)}</p></div>
-				<script src="main.bundle.js"></script>
-				<script src="vendors~main.bundle.js"></script>
-			</body>
-		</html>
-	`);
-});
 
 const port = process.env.PORT || 8080
 

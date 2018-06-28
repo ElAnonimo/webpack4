@@ -12,6 +12,7 @@ const isProd = process.env.NODE_ENV === 'production';
 
 module.exports = env => {
 	return {
+		name: 'client',
 		entry: {
 			main: [
 				'babel-polyfill',
