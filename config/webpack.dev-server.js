@@ -18,8 +18,9 @@ module.exports = {
 	},
 	mode: 'none',
 	output: {
-		filename: '[name].bundle.js',
-		path: path.resolve(__dirname, '../build')
+		filename: 'dev.server.bundle.js',
+		path: path.resolve(__dirname, '../build'),
+		libraryTarget: 'commonjs2'
 	},
 	target: 'node',																				// default is `target: 'web'`
 	externals: nodeExternals(),
@@ -127,7 +128,7 @@ module.exports = {
 					{
 						loader: 'file-loader',
 						options: {
-							name: 'images/[name].[hash:8].[ext]',
+							name: '/images/[name].[hash:8].[ext]',
 							emitFile: false
 						}
 					}

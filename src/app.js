@@ -6,7 +6,9 @@ import { AppContainer } from 'react-hot-loader'
 import data from '../data/bio';
 
 function render(Component) {
-	ReactDOM.render(
+	// ReactDOM.hydrate() not ReactDOM.render() cause app.js is client side and we render html from server side.
+	// ReactDOM.render() causes rerender, ReactDOM.hydrate() passes events and state w/o rerender
+	ReactDOM.hydrate(
 		<AppContainer>
 			<Component data={data} />
 		</AppContainer>,

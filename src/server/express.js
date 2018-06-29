@@ -1,6 +1,7 @@
 import express from 'express';
 import webpack from 'webpack'
 const expressStaticGzip = require('express-static-gzip')
+import webpackHotServerMiddleware from 'webpack-hot-server-middleware';
 
 const server = express()
 
@@ -23,17 +24,21 @@ if (!isProd) {
 
 	server.use(webpackDevMiddleware)
 	server.use(webpackHotMiddleware)
+	// webpackHotServerMiddleware takes the `name: 'server'` compilers
+	server.use(webpackHotServerMiddleware(compiler))
 } else {
 	console.log('isProd')
-	// const staticMiddleware = express.static('dist')
-	// server.use(staticMiddleware)
-	// Heroku doesn't support gzip on Heroku server level so we send gzip from express
-	// const expressStaticGzip = require('express-static-gzip')
-	const render = require('./render')
+	webpack([configProdClient, configProdServer]).run((err, stats) => {
+		// const staticMiddleware = express.static('dist')
+		// server.use(staticMiddleware)
+		// Heroku doesn't support gzip on Heroku server level so we send gzip from express
+		// const expressStaticGzip = require('express-static-gzip')
+		const render = require('../../build/prod.server.bundle.js').default
 
-	server.use(expressStaticGzip('dist', { enableBrotli: true }))
+		server.use(expressStaticGzip('dist', { enableBrotli: true }))
 
-	server.use(render());
+		server.use(render());
+	})
 }
 
 const port = process.env.PORT || 8080

@@ -11,7 +11,7 @@ export default () => (req, res) => {
 				<link href="/main.css" rel="stylesheet" />
 			</head>
 			<body>
-				<div id="react-root"><p>${ReactDOMServer.renderToString(<AppRoot />)}</p></div>
+				<div id="react-root">${ReactDOMServer.renderToString(<AppRoot />)}</div>
 				<script src="main.bundle.js"></script>
 				<script src="vendors~main.bundle.js"></script>
 			</body>
