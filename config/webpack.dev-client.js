@@ -1,6 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
-// const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 // const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
@@ -111,7 +111,7 @@ module.exports = {
 				test: /\.html$/,
 				use: [
 					// job of two below modules are done by HtmlWebpackPlugin
-					{
+					/* {
 						loader: 'file-loader',
 						options: {
 							name: '[name].[ext]'			// output file name
@@ -120,7 +120,7 @@ module.exports = {
 					{	// extract-loader puts the tested /\.html$/ file to a separate file not adds it to main.bundle.js
 						// extract loader parses the javascript back to an html file
 						loader: 'extract-loader'
-					},
+					}, */
 					// html-loader was left cause it exports tested html file as JS code to src/main.js
 					{
 						loader: 'html-loader',		// exports tested html file to main.bundle.js as string and lints it
@@ -176,17 +176,17 @@ module.exports = {
 				NODE_ENV: JSON.stringify("development"),
 				WEBPACK: true
 			}
-		})
+		}),
 		// new MiniCssExtractPlugin({ filename: '[name].css' }),
-		/* new HtmlWebpackPlugin({
-			// template: './src/index.html',
+		new HtmlWebpackPlugin({
+			template: './src/index.html',
 			// ejs is default to HtmlWebpackPlugin, no ejs loader needed unlike with html-loader above
 			// template: './src/index.ejs',
 			// template: './src/index.pug',
-			template: './src/index.hbs',
+			// template: './src/index.hbs',
 			inject: true,			// injects <script> tags to outputted dist/index.html
 			title: 'Hello EJS'
-		}), */
+		}),
 		/* new BundleAnalyzerPlugin({
 			generateStatsFile: true,
 			analyzerMode: 'server',

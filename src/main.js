@@ -9,7 +9,7 @@ require('./nav.css');
 // require('./main.sass');
 // require('./main.less');
 // require('./main.styl');
-require('./index.html');
+// require('./index.html');
 require('./app');
 
 // alert('test');
