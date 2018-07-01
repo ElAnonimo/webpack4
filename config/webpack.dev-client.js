@@ -1,8 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+// const HtmlWebpackPlugin = require('html-webpack-plugin');
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+// const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -11,6 +11,7 @@ module.exports = {
 	entry: {
 		main: [
 			'babel-polyfill',
+			'react-hot-loader/patch',
 			'babel-runtime/regenerator',
 			'webpack-hot-middleware/client?reload=true',
 			'./src/main'
@@ -70,8 +71,8 @@ module.exports = {
 				test: /\.css$/,
 				use: [
 					{
-						// loader: 'style-loader'
-						loader: MiniCssExtractPlugin.loader
+						loader: 'style-loader'
+						// loader: MiniCssExtractPlugin.loader
 					},
 					{
 						loader: 'css-loader',
@@ -110,16 +111,16 @@ module.exports = {
 				test: /\.html$/,
 				use: [
 					// job of two below modules are done by HtmlWebpackPlugin
-					/* {
+					{
 						loader: 'file-loader',
 						options: {
-							name: '[name].html'			// output file name
+							name: '[name].[ext]'			// output file name
 						}
 					},
 					{	// extract-loader puts the tested /\.html$/ file to a separate file not adds it to main.bundle.js
 						// extract loader parses the javascript back to an html file
 						loader: 'extract-loader'
-					}, */
+					},
 					// html-loader was left cause it exports tested html file as JS code to src/main.js
 					{
 						loader: 'html-loader',		// exports tested html file to main.bundle.js as string and lints it
@@ -170,7 +171,13 @@ module.exports = {
 	},
 	plugins: [
 		new webpack.HotModuleReplacementPlugin(),
-		new MiniCssExtractPlugin({ filename: '[name].css' }),
+		new webpack.DefinePlugin({
+			"process.env": {
+				NODE_ENV: JSON.stringify("development"),
+				WEBPACK: true
+			}
+		})
+		// new MiniCssExtractPlugin({ filename: '[name].css' }),
 		/* new HtmlWebpackPlugin({
 			// template: './src/index.html',
 			// ejs is default to HtmlWebpackPlugin, no ejs loader needed unlike with html-loader above
@@ -180,10 +187,10 @@ module.exports = {
 			inject: true,			// injects <script> tags to outputted dist/index.html
 			title: 'Hello EJS'
 		}), */
-		new BundleAnalyzerPlugin({
+		/* new BundleAnalyzerPlugin({
 			generateStatsFile: true,
 			analyzerMode: 'server',
 			openAnalyzer: false
-		})
+		}) */
 	]
 };

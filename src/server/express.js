@@ -43,4 +43,4 @@ if (!isProd) {
 
 const port = process.env.PORT || 8080
 
-server.listen(port, () => console.log(`Server's running on http://localhost:${port}.`));
+server.listen(port, () => console.log(`Server's running on http://localhost:${port} in ${process.env.NODE_ENV}.`));

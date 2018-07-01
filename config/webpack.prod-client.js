@@ -14,7 +14,7 @@ module.exports = {
 	name: 'client',
 	entry: {
 		main: [
-			'babel-polyfill',
+			// 'babel-polyfill',
 			'./src/main'
 		],
 		// babel-polyfill adds too much kB to outputted main.bundle.js
