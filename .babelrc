@@ -3,7 +3,8 @@
 		"transform-runtime",
 		"react-hot-loader/babel",
 		"transform-es2015-arrow-functions",
-		"async-to-promises"
+		"async-to-promises",
+		"syntax-dynamic-import"
 	],
 	"presets": [
 		[
