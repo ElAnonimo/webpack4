@@ -63,6 +63,8 @@
     "pug-loader": "^2.4.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2"
   }
