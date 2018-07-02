@@ -193,5 +193,6 @@ module.exports = {
 			analyzerMode: 'server',
 			openAnalyzer: false
 		}) */
+		new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 })
 	]
 };

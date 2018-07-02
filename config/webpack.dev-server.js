@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const nodeExternals = require('webpack-node-externals');
+const externals = require('./node-externals')
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -23,7 +24,8 @@ module.exports = {
 		libraryTarget: 'commonjs2'
 	},
 	target: 'node',																				// default is `target: 'web'`
-	externals: nodeExternals(),
+	// externals: nodeExternals(),
+	externals,
 	module: {
 		rules: [
 			{

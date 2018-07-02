@@ -4,7 +4,8 @@
 		"react-hot-loader/babel",
 		"transform-es2015-arrow-functions",
 		"async-to-promises",
-		"syntax-dynamic-import"
+		"syntax-dynamic-import",
+		"universal-import"
 	],
 	"presets": [
 		[
