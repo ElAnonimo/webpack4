@@ -29,6 +29,8 @@ if (!isProd) {
 } else {
 	console.log('isProd')
 	webpack([configProdClient, configProdServer]).run((err, stats) => {
+		const clientStats = stats.toJson().children[0]		// stats lists all the files we use
+		console.log(stats.toString({ colors: true }));
 		// const staticMiddleware = express.static('dist')
 		// server.use(staticMiddleware)
 		// Heroku doesn't support gzip on Heroku server level so we send gzip from express
@@ -37,7 +39,8 @@ if (!isProd) {
 
 		server.use(expressStaticGzip('dist', { enableBrotli: true }))
 
-		server.use(render());
+		// server.use(render());
+		server.use(render({ clientStats }));
 	})
 }
 

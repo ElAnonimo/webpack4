@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-// const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -72,8 +72,8 @@ module.exports = {
 				test: /\.css$/,
 				use: [
 					{
-						loader: 'style-loader'
-						// loader: MiniCssExtractPlugin.loader
+						// loader: 'style-loader'
+						loader: MiniCssExtractPlugin.loader
 					},
 					{
 						loader: 'css-loader',
@@ -178,14 +178,14 @@ module.exports = {
 				WEBPACK: true
 			}
 		}),
-		// new MiniCssExtractPlugin({ filename: '[name].css' }),
+		new MiniCssExtractPlugin({ filename: '[name].css' }),
 		new HtmlWebpackPlugin({
 			template: './src/index.html',
 			// ejs is default to HtmlWebpackPlugin, no ejs loader needed unlike with html-loader above
 			// template: './src/index.ejs',
 			// template: './src/index.pug',
 			// template: './src/index.hbs',
-			inject: true,			// injects <script> tags to outputted dist/index.html
+			inject: true,			// default. Injects <script> tags to outputted dist/index.html
 			title: 'Hello EJS'
 		}),
 		/* new BundleAnalyzerPlugin({

@@ -164,7 +164,10 @@ module.exports = {
 	plugins: [
 		new OptimizeCssAssetsPlugin(),
 		// new MiniCssExtractPlugin({ filename: '[name].[contenthash].css' }),
-		new MiniCssExtractPlugin({ filename: '[name].css' }),
+		new MiniCssExtractPlugin({
+			filename: '[name].css',			// default
+			chunkFilename: '[name].[hash:8].css'
+		}),
 		new HtmlWebpackPlugin({
 			template: './src/index.html',
 			// ejs is default to HtmlWebpackPlugin, no ejs loader needed unlike with html-loader above

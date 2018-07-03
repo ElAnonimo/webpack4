@@ -1,5 +1,6 @@
 import React from 'react'
-import markdownData from '../../data/post.md';
+import markdownData from '../../data/post.md'
+import '../css/About.css'
 
 export default (props) => {
 	return (

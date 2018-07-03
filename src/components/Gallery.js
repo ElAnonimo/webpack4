@@ -1,4 +1,5 @@
 import React from 'react'
+import '../css/Gallery.css'
 
 const getBundle = () => {
 	// babel-plugin-syntax-dynamic-import allows for import calls anywhere in the code
