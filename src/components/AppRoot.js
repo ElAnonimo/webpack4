@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import Routes from './Routes';
-import '../nav.css'
+// import '../nav.css'
 
 export default class extends React.Component {
 	constructor(props) {

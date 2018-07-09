@@ -8,19 +8,17 @@ const isProd = process.env.NODE_ENV === 'production';
 
 module.exports = {
 	name: 'server',
-	entry: {
-		server: './src/server/render',
+	entry: './src/server/render',
 		// babel-polyfill adds too much kB to outputted main.bundle.js
 		// main: ['core-js/fn/promise', './src/main']
 		// ts: './src/main'
-	},
 	resolve: {
 		extensions: [".js", ".ts"]													// add extensions to entry files above
 	},
 	mode: 'production',
 	output: {
 		filename: 'prod.server.bundle.js',
-		chunkFilename: '[name].js',
+		// chunkFilename: '[name].js',
 		path: path.resolve(__dirname, '../build'),
 		libraryTarget: 'commonjs2'
 	},
@@ -46,9 +44,9 @@ module.exports = {
 			{
 				test: /\.css$/,
 				use: [
-					{
+					/* {
 						loader: MiniCssExtractPlugin.loader
-					},
+					}, */
 					{
 						loader: 'css-loader',
 						options: {
@@ -98,13 +96,13 @@ module.exports = {
 						loader: 'extract-loader'
 					}, */
 					// html-loader was left cause it exports tested html file as JS code to src/main.js
-					{
+					/* {
 						loader: 'html-loader',		// exports tested html file to main.bundle.js as string and lints it
 						options: {
 							attrs: ['img:src']			// to add img:src to output file and require all images from its folder
 						}
 						// html template implicitly turns <img src='...' /> in .html page to <img src='require(src)' />
-					}
+					} */
 				]
 			},
 			{
@@ -153,6 +151,9 @@ module.exports = {
 				NODE_ENV: JSON.stringify('production')
 				// NODE_ENV: JSON.stringify(env.NODE_ENV)
 			}
+		}),
+		new webpack.optimize.LimitChunkCountPlugin({
+			maxChunks: 1
 		})
 	]
 };

@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const isProd = process.env.NODE_ENV === 'production';
@@ -9,8 +9,9 @@ const isProd = process.env.NODE_ENV === 'production';
 module.exports = {
 	name: 'client',
 	entry: {
+		vendor: ["react", "react-dom"],
 		main: [
-			'babel-polyfill',
+			// 'babel-polyfill',
 			'react-hot-loader/patch',
 			'babel-runtime/regenerator',
 			'webpack-hot-middleware/client?reload=true',
@@ -25,21 +26,22 @@ module.exports = {
 	},
 	mode: 'development',
 	output: {
-		filename: 'dev.client.bundle.js',
+		// filename: 'dev.client.bundle.js',
+		filename: '[name].bundle.js',
 		chunkFilename: '[name].js',
 		path: path.resolve(__dirname, '../dist'),
 		publicPath: '/'
 	},
 	devServer: {
 		contentBase: 'dist',
-		historyApiFallback: true,
+		// historyApiFallback: true,
 		overlay: true,					// to display errors in the browser window
 		hot: true,
 		stats: {
 			colors: true
 		}
 	},
-	optimization: {
+	/* optimization: {
 		splitChunks: {
 			chunks: 'all',
 			cacheGroups: {
@@ -50,7 +52,7 @@ module.exports = {
 				}
 			}
 		}
-	},
+	}, */
 	devtool: 'source-map',
 	module: {
 		rules: [
@@ -72,8 +74,8 @@ module.exports = {
 				test: /\.css$/,
 				use: [
 					{
-						// loader: 'style-loader'
-						loader: MiniCssExtractPlugin.loader
+						loader: 'style-loader'
+						// loader: MiniCssExtractPlugin.loader
 					},
 					{
 						loader: 'css-loader',
@@ -123,13 +125,13 @@ module.exports = {
 						loader: 'extract-loader'
 					}, */
 					// html-loader was left cause it exports tested html file as JS code to src/main.js
-					{
+					/* {
 						loader: 'html-loader',		// exports tested html file to main.bundle.js as string and lints it
 						options: {
 							attrs: ['img:src']			// to add img:src to output file and require all images from its folder
 						}
 						// html template implicitly turns <img src='...' /> in .html page to <img src='require(src)' />
-					}
+					} */
 				]
 			},
 			{
@@ -178,8 +180,8 @@ module.exports = {
 				WEBPACK: true
 			}
 		}),
-		new MiniCssExtractPlugin({ filename: '[name].css' }),
-		new HtmlWebpackPlugin({
+		// new MiniCssExtractPlugin({ filename: '[name].css' }),
+		/* new HtmlWebpackPlugin({
 			template: './src/index.html',
 			// ejs is default to HtmlWebpackPlugin, no ejs loader needed unlike with html-loader above
 			// template: './src/index.ejs',
@@ -187,12 +189,12 @@ module.exports = {
 			// template: './src/index.hbs',
 			inject: true,			// default. Injects <script> tags to outputted dist/index.html
 			title: 'Hello EJS'
-		}),
+		}), */
 		/* new BundleAnalyzerPlugin({
 			generateStatsFile: true,
 			analyzerMode: 'server',
 			openAnalyzer: false
 		}) */
-		new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 })
+		// new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 })
 	]
 };

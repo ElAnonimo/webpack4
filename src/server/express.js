@@ -20,6 +20,10 @@ if (!isProd) {
 	const serverCompiler = compiler.compilers[1]
 
 	const webpackDevMiddleware = require('webpack-dev-middleware')(compiler, configDevClient.devServer)
+	/* const webpackDevMiddleware = require('webpack-dev-middleware')(compiler, {
+		publicPath: '/',
+		serverSideRender: true
+	}) */
 	const webpackHotMiddleware = require('webpack-hot-middleware')(clientCompiler, configDevClient.devServer)
 
 	server.use(webpackDevMiddleware)

@@ -9,6 +9,12 @@ import Routes from '../components/Routes';
 export default ({ clientStats }) => (req, res) => {
 	// const html = ReactDOMServer.renderToString(<div>Hello SSR</div>);
 	// res.send(html);
+	const app = ReactDOMServer.renderToString(
+		<StaticRouter location={req.url} context={{}}>
+			<Routes />
+		</StaticRouter>
+	)
+
 	const { js, styles } = flushChunks(clientStats, {
 		chunkNames: flushChunkNames()
 	})
@@ -20,12 +26,8 @@ export default ({ clientStats }) => (req, res) => {
 				${styles}
 			</head>
 			<body>
-				<!-- <div id="react-root">${ReactDOMServer.renderToString(<AppRoot />)}</div> -->
-				<div id="react-root">
-					${ReactDOMServer.renderToString(
-						<StaticRouter location={req.url} context={{}}><Routes /></StaticRouter>
-					)}
-				</div>
+				<!-- <div id="react-root">$ --><!-- {ReactDOMServer.renderToString(<AppRoot />)}</div> -->
+				<div id="react-root">${app}</div>
 				<!-- <script src="main.bundle.js"></script> -->
 				<!-- <script src="vendors~main.bundle.js"></script> -->
 				${js}

@@ -1,7 +1,7 @@
 // require('babel-runtime/regenerator');						// turns Promises to Generators. Moved to webpack.dev-client.js
 // is sent to client. Accepts and reloads React component due to changes in project files, keeping its state
 // require('react-hot-loader/patch');
-require('babel-register');													// allow for ES6 imports
+// require('babel-register');													// allow for ES6 imports
 // this is sent to client to set up websocket connection. Moved to webpack.dev.js
 // require('webpack-hot-middleware/client?reload=true');
 require('./main.css');

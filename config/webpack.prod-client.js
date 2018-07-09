@@ -13,6 +13,7 @@ const isProd = process.env.NODE_ENV === 'production';
 module.exports = {
 	name: 'client',
 	entry: {
+		vendor: ["react", "react-dom"],
 		main: [
 			// 'babel-polyfill',
 			'./src/main'
@@ -26,13 +27,15 @@ module.exports = {
 	},
 	mode: 'production',
 	output: {
-		filename: 'prod.client.bundle.js',
+		// filename: 'prod.client.bundle.js',
+		filename: '[name].bundle.js',
+		chunkFilename: "[name].js",
 		path: path.resolve(__dirname, '../dist'),
 		publicPath: '/'
 	},
 	optimization: {
 		splitChunks: {
-			chunks: 'all',
+			// chunks: 'all',
 			cacheGroups: {
 				vendor: {
 					name: 'vendor',
@@ -114,13 +117,13 @@ module.exports = {
 						loader: 'extract-loader'
 					}, */
 					// html-loader was left cause it exports tested html file as JS code to src/main.js
-					{
-						loader: 'html-loader',		// exports tested html file to main.bundle.js as string and lints it
+					/* {
+						loader: 'html-loader',		// exports tested html file to main.bundle.js as JS code and lints it
 						options: {
 							attrs: ['img:src']			// to add img:src to output file and require all images from its folder
 						}
 						// html template implicitly turns <img src='...' /> in .html page to <img src='require(src)' />
-					}
+					} */
 				]
 			},
 			{
@@ -145,7 +148,8 @@ module.exports = {
 				test: /\.(png|svg|gif|jpe?g)$/,
 				use: [
 					{
-						loader: 'file-loader',
+						// loader: 'file-loader',
+						loader: 'url-loader',
 						options: {
 							name: 'images/[name].[hash:8].[ext]'
 						}
@@ -165,21 +169,22 @@ module.exports = {
 		new OptimizeCssAssetsPlugin(),
 		// new MiniCssExtractPlugin({ filename: '[name].[contenthash].css' }),
 		new MiniCssExtractPlugin({
-			filename: '[name].css',			// default
-			chunkFilename: '[name].[hash:8].css'
+			// filename: '[name].css',			// default
+			// chunkFilename: '[name].[hash:8].css'
 		}),
-		new HtmlWebpackPlugin({
+		/* new HtmlWebpackPlugin({
 			template: './src/index.html',
 			// ejs is default to HtmlWebpackPlugin, no ejs loader needed unlike with html-loader above
 			// template: './src/index.ejs',
 			// template: './src/index.pug',
 			// template: './src/index.hbs',
-			inject: true,			// default. Injects <script> tags to outputted dist/index.html
+			inject: true,			// default. Injects generated js scripts to <script> tags to outputted dist/index.html
 			title: 'Hello EJS'
-		}),
+		}), */
 		new webpack.DefinePlugin({
 			'process.env': {
-				NODE_ENV: JSON.stringify('production')
+				NODE_ENV: JSON.stringify('production'),
+				WEBPACK: true
 				// NODE_ENV: JSON.stringify(env.NODE_ENV)
 			}
 		}),
