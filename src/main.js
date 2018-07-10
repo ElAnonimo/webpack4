@@ -5,7 +5,7 @@
 // this is sent to client to set up websocket connection. Moved to webpack.dev.js
 // require('webpack-hot-middleware/client?reload=true');
 require('./main.css');
-require('./nav.css');
+// require('./nav.css');
 // require('./main.sass');
 // require('./main.less');
 // require('./main.styl');

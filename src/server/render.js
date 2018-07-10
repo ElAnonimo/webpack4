@@ -9,13 +9,17 @@ import Routes from '../components/Routes';
 export default ({ clientStats }) => (req, res) => {
 	// const html = ReactDOMServer.renderToString(<div>Hello SSR</div>);
 	// res.send(html);
+	const context = {
+		site: req.hostname.split('.')[0]
+	}
+
 	const app = ReactDOMServer.renderToString(
-		<StaticRouter location={req.url} context={{}}>
+		<StaticRouter location={req.url} context={context}>
 			<Routes />
 		</StaticRouter>
 	)
 
-	const { js, styles } = flushChunks(clientStats, {
+	const { js, styles, cssHash } = flushChunks(clientStats, {
 		chunkNames: flushChunkNames()
 	})
 
@@ -31,6 +35,7 @@ export default ({ clientStats }) => (req, res) => {
 				<!-- <script src="main.bundle.js"></script> -->
 				<!-- <script src="vendors~main.bundle.js"></script> -->
 				${js}
+				${cssHash}
 			</body>
 		</html>
 	`);

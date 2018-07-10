@@ -13,7 +13,8 @@ module.exports = {
 		main: [
 			// 'babel-polyfill',
 			'react-hot-loader/patch',
-			'babel-runtime/regenerator',
+			// transform-runtime in .babelrc requires in babel-runtime/regenerator, babel-runtime/core-js
+			// 'babel-runtime/regenerator',
 			'webpack-hot-middleware/client?reload=true',
 			'./src/main'
 		],
@@ -74,8 +75,8 @@ module.exports = {
 				test: /\.css$/,
 				use: [
 					{
-						loader: 'style-loader'
-						// loader: MiniCssExtractPlugin.loader
+						// loader: 'style-loader'
+						loader: MiniCssExtractPlugin.loader
 					},
 					{
 						loader: 'css-loader',
@@ -180,7 +181,7 @@ module.exports = {
 				WEBPACK: true
 			}
 		}),
-		// new MiniCssExtractPlugin({ filename: '[name].css' }),
+		new MiniCssExtractPlugin({ filename: '[name].css' }),
 		/* new HtmlWebpackPlugin({
 			template: './src/index.html',
 			// ejs is default to HtmlWebpackPlugin, no ejs loader needed unlike with html-loader above

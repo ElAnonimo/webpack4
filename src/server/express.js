@@ -33,7 +33,8 @@ if (!isProd) {
 } else {
 	console.log('isProd')
 	webpack([configProdClient, configProdServer]).run((err, stats) => {
-		const clientStats = stats.toJson().children[0]		// stats lists all the files we use
+		// stats lists all the files (js, css) we use in configProdClient, configProdServer
+		const clientStats = stats.toJson().children[0]
 		console.log(stats.toString({ colors: true }));
 		// const staticMiddleware = express.static('dist')
 		// server.use(staticMiddleware)

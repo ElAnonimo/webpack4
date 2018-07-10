@@ -26,9 +26,12 @@ export default (props) => (
 			<Route exact path="/article">
 				<UniversalComponent page="Article" />
 			</Route>
-			<Route path="/about">
-				<UniversalComponent page="About" data={ props.data } />
-			</Route>
+			<Route path="/about"
+				render={({ staticContext }) => {
+					const site = staticContext ? staticContext.site : location.hostname.split('.')[0]
+					return <UniversalComponent page="About" data={props.data} site={site} />
+				}}
+			/>
 		</Switch>
 	</div>
 )
