@@ -1,26 +1,31 @@
-import React from 'react';
-import ReactDOMServer from 'react-dom/server';
+import React from 'react'
+import ReactDOMServer from 'react-dom/server'
 import { StaticRouter } from 'react-router'
 import { flushChunkNames } from 'react-universal-component/server'
-import flushChunks from 'webpack-flush-chunks';
-// const AppRoot = require('../components/AppRoot').default;
-import Routes from '../components/Routes';
+import flushChunks from 'webpack-flush-chunks'
+import { Provider } from 'react-redux'
+// const AppRoot = require('../components/AppRoot').default
+import Routes from '../components/Routes'
+import store from '../store'
 
 export default ({ clientStats }) => (req, res) => {
 	// const html = ReactDOMServer.renderToString(<div>Hello SSR</div>);
 	// res.send(html);
-	const context = {
-		site: req.hostname.split('.')[0]
-	}
+	const site = req.hostname.split('.')[0]
+	const names = flushChunkNames().concat([`css/${site}-theme-css`])
+
+	const context = { site }
 
 	const app = ReactDOMServer.renderToString(
-		<StaticRouter location={req.url} context={context}>
-			<Routes />
-		</StaticRouter>
+		<Provider store={store}>
+			<StaticRouter location={req.url} context={context}>
+				<Routes />
+			</StaticRouter>
+		</Provider>
 	)
 
 	const { js, styles, cssHash } = flushChunks(clientStats, {
-		chunkNames: flushChunkNames()
+		chunkNames: names
 	})
 
 	res.send(`

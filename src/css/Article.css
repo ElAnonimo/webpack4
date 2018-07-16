@@ -1,0 +1,10 @@
+body {
+	font-family: arial, serif;
+	display: flex;
+	justify-content: center;
+}
+
+.article h1 {
+	font-style: italic;
+	font-weight: 100;
+}

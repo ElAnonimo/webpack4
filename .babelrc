@@ -5,7 +5,8 @@
 		"transform-es2015-arrow-functions",
 		"async-to-promises",
 		"syntax-dynamic-import",
-		"universal-import"
+		"universal-import",
+		"transform-object-rest-spread"
 	],
 	"presets": [
 		[

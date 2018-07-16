@@ -14,24 +14,30 @@ export default (props) => (
 		<div className="nav">
 			<Link to="/about">About</Link>
 			<Link to="/gallery">Gallery</Link>
-			<Link to="/article">Article</Link>
+			<Link to="/article/bio">Article - bio</Link>
 		</div>
 		<Switch>
-			{ /* <Route path="/about" render={() => <About data={props.data} />} /> */ }
-			{ /* <Route exact path="/gallery" component={Gallery} /> */ }
-			{ /* <Route exact path="/article" component={Article} /> */ }
+			{/* <Route path="/about" render={() => <About data={props.data} />} /> */}
+			{/* <Route exact path="/gallery" component={Gallery} /> */}
+			{/* <Route exact path="/article" component={Article} /> */}
 			<Route exact path="/gallery">
 				<UniversalComponent page="Gallery" />
 			</Route>
-			<Route exact path="/article">
-				<UniversalComponent page="Article" />
-			</Route>
+			<Route path="/article/:slug"
+				render={({ staticContext, match }) => {
+					const site = staticContext ? staticContext.site : location.hostname.split('.')[0]
+					return <UniversalComponent page="Article" data={props.data} site={site} match={match} />
+				}}
+			/>
 			<Route path="/about"
 				render={({ staticContext }) => {
 					const site = staticContext ? staticContext.site : location.hostname.split('.')[0]
 					return <UniversalComponent page="About" data={props.data} site={site} />
 				}}
 			/>
+			<Route>
+				<UniversalComponent page="NotFound" />
+			</Route>
 		</Switch>
 	</div>
 )
